@@ -163,7 +163,7 @@ def main():
 
     # Initialize the checker
     try:
-        checker = DrugInteractionChecker('drug_interaction.csv')
+        checker = DrugInteractionChecker('../drug_interaction.csv')
     except Exception as e:
         print(f"\nError: {e}")
         print("Make sure 'drug_interaction.csv' is in the same folder as this script.")
