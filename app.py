@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 
-app = Flask(__name__)
+app = Flask(__name__)  # <-- this line MUST be at the top
 
 # Dummy credentials
 USERNAME = "admin"
@@ -17,7 +17,8 @@ def login():
         password = request.form['password']
 
         if username == USERNAME and password == PASSWORD:
-            return f"Welcome, {username}!"
+            # Redirect to dashboard after successful login
+            return render_template('dashboard.html', username=username)
         else:
             return "Invalid credentials, please try again."
 
@@ -25,4 +26,3 @@ def login():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
