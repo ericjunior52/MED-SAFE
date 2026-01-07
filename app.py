@@ -18,7 +18,8 @@ def login():
 
         if username == USERNAME and password == PASSWORD:
             # Redirect to dashboard after successful login
-            return render_template('dashboard.html', username=username)
+            return redirect(url_for('dashboard'))
+
         else:
             return "Invalid credentials, please try again."
 
@@ -50,4 +51,37 @@ def check_interactions(medications):
                     interactions_found.append(f"{drug1} interacts with {drug2}")
 
     return interactions_found
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    results = []
+
+    if request.method == 'POST':
+        user_input = request.form.get('medications')
+        medications = user_input.split(',')
+        results = check_interactions(medications)
+
+        if not results:
+            results.append("No known interactions found.")
+
+    return render_template('dashboard.html', results=results)
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    if request.method == 'POST':
+        # Get the list of medications from the form
+        meds = request.form['medications']
+        meds_list = [m.strip() for m in meds.split(',')]  # Split by commas
+        
+        # For now, just print them (we'll add interaction checking later)
+        return f"You entered: {meds_list}"
+
+    return '''
+        <h2>Dashboard</h2>
+        <form method="post">
+            Enter medications (comma separated): <br>
+            <input type="text" name="medications" placeholder="e.g., Aspirin, Ibuprofen">
+            <input type="submit" value="Check Interactions">
+        </form>
+    '''
 
