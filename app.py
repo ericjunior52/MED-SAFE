@@ -1,14 +1,50 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template_string, request, redirect, url_for
 
-app = Flask(__name__)  # <-- this line MUST be at the top
+app = Flask(__name__)
 
-# Dummy credentials
-USERNAME = "admin"
-PASSWORD = "1234"
+# --- Login Page ---
+login_page = '''
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="post">
+        Username: <input type="text" name="username" placeholder="Username"><br><br>
+        Password: <input type="password" name="password" placeholder="Password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+'''
 
-@app.route('/')
-def home():
-    return redirect(url_for('login'))
+# --- Dashboard Page ---
+dashboard_page = '''
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Dashboard</h2>
+    <form method="post">
+        Enter medications (comma separated): <br>
+        <input type="text" name="medications" placeholder="e.g., Aspirin, Ibuprofen"><br><br>
+        <input type="submit" value="Check Interactions">
+    </form>
+    {% if meds_list %}
+        <h3>You entered:</h3>
+        <ul>
+        {% for med in meds_list %}
+            <li>{{ med }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
+'''
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -16,72 +52,22 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        if username == admin and password == 123:
-            # Redirect to dashboard after successful login
+        if username == 'admin' and password == '123':
             return redirect(url_for('dashboard'))
-
         else:
-            return "Invalid credentials, please try again."
+            return "Invalid credentials. Please go back and try again."
 
-    return render_template('login.html')
+    return render_template_string(login_page)
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    meds_list = None
+    if request.method == 'POST':
+        meds = request.form['medications']
+        meds_list = [m.strip() for m in meds.split(',')]
+    return render_template_string(dashboard_page, meds_list=meds_list)
 
 if __name__ == '__main__':
     app.run(debug=True)
 
-    # Drug interaction database (example)
-drug_interactions = {
-    "aspirin": {"ibuprofen", "warfarin"},
-    "ibuprofen": {"aspirin", "prednisone"},
-    "warfarin": {"aspirin"},
-    "prednisone": {"ibuprofen"},
-    "paracetamol": set()  # no known interactions here
-}
-def check_interactions(medications):
-    interactions_found = []
-
-    meds = [med.lower().strip() for med in medications]
-
-    for i in range(len(meds)):
-        for j in range(i + 1, len(meds)):
-            drug1 = meds[i]
-            drug2 = meds[j]
-
-            if drug1 in drug_interactions:
-                if drug2 in drug_interactions[drug1]:
-                    interactions_found.append(f"{drug1} interacts with {drug2}")
-
-    return interactions_found
-
-@app.route('/dashboard', methods=['GET', 'POST'])
-def dashboard():
-    results = []
-
-    if request.method == 'POST':
-        user_input = request.form.get('medications')
-        medications = user_input.split(',')
-        results = check_interactions(medications)
-
-        if not results:
-            results.append("No known interactions found.")
-
-    return render_template('dashboard.html', results=results)
-
-@app.route('/dashboard', methods=['GET', 'POST'])
-def dashboard():
-    if request.method == 'POST':
-        # Get the list of medications from the form
-        meds = request.form['medications']
-        meds_list = [m.strip() for m in meds.split(',')]  # Split by commas
-        
-        # For now, just print them (we'll add interaction checking later)
-        return f"You entered: {meds_list}"
-
-    return '''
-        <h2>Dashboard</h2>
-        <form method="post">
-            Enter medications (comma separated): <br>
-            <input type="text" name="medications" placeholder="e.g., Aspirin, Ibuprofen">
-            <input type="submit" value="Check Interactions">
-        </form>
-    '''
 
