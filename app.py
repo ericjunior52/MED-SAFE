@@ -26,3 +26,13 @@ def login():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    # Drug interaction database (example)
+drug_interactions = {
+    "aspirin": {"ibuprofen", "warfarin"},
+    "ibuprofen": {"aspirin", "prednisone"},
+    "warfarin": {"aspirin"},
+    "prednisone": {"ibuprofen"},
+    "paracetamol": set()  # no known interactions here
+}
+

@@ -7,19 +7,21 @@
 </head>
 <body>
     <div class="container">
-        <h1>MED SAFE</h1>
+        <div class="container">
+    <h1 class="logo">MED SAFE</h1>
+    <p class="subtitle">Drug Interaction Checker</p>
 
+    <form method="POST" action="/login">
+        <label>Username</label>
+        <input type="text" name="username" required>
 
-        <form method="POST" action="/login">
-            <label>Username</label>
-            <input type="text" name="username" required>
+        <label>Password</label>
+        <input type="password" name="password" required>
 
-            <label>Password</label>
-            <input type="password" name="password" required>
+        <input type="submit" value="Sign In">
+    </form>
+</div>
 
-            <input type="submit" value="Login">
-        </form>
-    </div>
 </body>
 </html>
 
