@@ -16,7 +16,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        if username == USERNAME and password == PASSWORD:
+        if username == admin and password == 123:
             # Redirect to dashboard after successful login
             return redirect(url_for('dashboard'))
 
