@@ -1,57 +1,61 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    height: 100vh;
+    background: linear-gradient(
+            rgba(88, 24, 124, 0.85),
+            rgba(88, 24, 124, 0.85)
+        ),
+        url("/static/healthcare.jpg");
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
+/* Login card */
 .container {
     background: white;
-    padding: 30px;
-    border-radius: 8px;
-    width: 320px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 35px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: #58187c;
 }
 
 label {
-    font-weight: bold;
+    font-weight: 600;
+    color: #333;
 }
 
 input[type="text"],
 input[type="password"] {
     width: 100%;
-    padding: 10px;
-    margin: 8px 0 15px 0;
+    padding: 12px;
+    margin: 8px 0 18px 0;
+    border-radius: 6px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    font-size: 14px;
 }
 
 input[type="submit"] {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+    padding: 12px;
+    background-color: #58187c;
     border: none;
     color: white;
     font-size: 16px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #6f2b91;
 }
 
-a {
-    display: block;
-    text-align: center;
-    margin-top: 15px;
-    text-decoration: none;
-    color: #007bff;
-}
