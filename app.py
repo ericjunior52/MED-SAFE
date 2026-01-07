@@ -35,4 +35,19 @@ drug_interactions = {
     "prednisone": {"ibuprofen"},
     "paracetamol": set()  # no known interactions here
 }
+def check_interactions(medications):
+    interactions_found = []
+
+    meds = [med.lower().strip() for med in medications]
+
+    for i in range(len(meds)):
+        for j in range(i + 1, len(meds)):
+            drug1 = meds[i]
+            drug2 = meds[j]
+
+            if drug1 in drug_interactions:
+                if drug2 in drug_interactions[drug1]:
+                    interactions_found.append(f"{drug1} interacts with {drug2}")
+
+    return interactions_found
 

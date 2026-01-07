@@ -2,16 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Medication Interaction Checker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="container">
-        <h1>Dashboard</h1>
-        <p>Welcome, <strong>{{ username }}</strong> 👋</p>
+<body class="dashboard-body">
 
-        <a href="/logout">Logout</a>
+    <div class="dashboard-container">
+        <h1>Medication Interaction Checker</h1>
+
+        <p class="subtitle">
+            Enter medications separated by commas (e.g. aspirin, ibuprofen)
+        </p>
+
+        <form method="POST">
+            <textarea 
+                name="medications" 
+                placeholder="Enter medications here..."
+                required></textarea>
+
+            <button type="submit">Check Interactions</button>
+        </form>
+
+        {% if results %}
+            <div class="results">
+                <h3>Interaction Results</h3>
+                <ul>
+                    {% for interaction in results %}
+                        <li>{{ interaction }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
+
 </body>
 </html>
+
 
